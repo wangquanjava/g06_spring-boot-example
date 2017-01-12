@@ -26,6 +26,15 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		<!-- dao层依赖包 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
 		
 		<!-- 下面是spring-boot中没有管理的 -->
 		<dependency>
@@ -33,5 +42,22 @@
 		    <artifactId>spring-boot-admin-starter-client</artifactId>
 		    <version>1.3.0</version>
 		</dependency>
+		<!-- commons家族 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+		
 	</dependencies>
 </project>
