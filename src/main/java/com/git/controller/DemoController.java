@@ -41,4 +41,15 @@ public class DemoController {
 	}
 	
 	
+	@RequestMapping("/exception")
+	public AjaxJson exception(HttpServletRequest request) throws Exception{
+		if (true) {
+			throw new RuntimeException("这里是异常信息");
+		}
+		List<DemoEntity> demoEntitys = this.demoService.getByStartDate(DateUtils.parseDate("2016-12-12", "yyyy-MM-dd"),DateUtils.parseDate("2017-01-12", "yyyy-MM-dd"));
+		return new AjaxJson(true, "访问成功", demoEntitys);
+	}
+	
+	
+	
 }
