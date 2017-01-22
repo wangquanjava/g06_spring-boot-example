@@ -16,7 +16,6 @@
 		<p class="pre-scrollable ">这是首页 </p>
 		<a onclick="toAjax()">发送一个ajax请求</a>
 	</body>
-	
 	<script src="${webRoot }/js/bootstrap.js"></script>
 	<script src="${webRoot }/js/jquery.min.js"></script>
 	<script>
