@@ -12,18 +12,11 @@ import com.git.domain.DemoEntity;
 import com.git.service.DemoService;
 
 @Service
-@Transactional(readOnly=true,timeout=10)
+@Transactional
 public class DemoServiceImpl implements DemoService{
 	@Autowired
 	private DemoDao demoDao;
 	
-	@Override
-	@Transactional
-	public DemoEntity insert(DemoEntity demoEntity) {
-		DemoEntity save = this.demoDao.save(demoEntity);
-		return save;
-	}
-
 	@Override
 	public DemoEntity get(Integer id) {
 		return this.demoDao.findById(id);
@@ -32,6 +25,11 @@ public class DemoServiceImpl implements DemoService{
 	@Override
 	public List<DemoEntity> getByStartDate(Date parseDate, Date date) {
 		return this.demoDao.findByStartDateBetween(parseDate,date);
+	}
+
+	@Override
+	public int update(Integer id) {
+		return this.demoDao.update(id);
 	}
 
 }

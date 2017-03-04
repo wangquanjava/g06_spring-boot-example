@@ -2,6 +2,7 @@ package com.git;
 
 import java.net.InetAddress;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -20,7 +21,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 		@PropertySource("classpath:application.properties"),
 		@PropertySource("classpath:application-datasource.properties"),
 		@PropertySource("classpath:application-log.properties"),
-		@PropertySource("classpath:application-redis.properties"),
 		@PropertySource("classpath:application-mvc.properties")
 	})
 public class ApplicationStart {
@@ -29,8 +29,9 @@ public class ApplicationStart {
         ConfigurableApplicationContext context = SpringApplication.run(ApplicationStart.class, args);
         
         
-        String port = context.getEnvironment().getProperty("server-port");
         String address = InetAddress.getLocalHost().getHostAddress();
+        String port = context.getEnvironment().getProperty("server-port");
+        port = StringUtils.isBlank(port)==true?"8080":port;
         System.out.println("------访问地址为:"+address+":"+port+"------");
     }
 }
