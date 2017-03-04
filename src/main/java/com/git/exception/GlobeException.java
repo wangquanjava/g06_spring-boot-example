@@ -1,20 +1,18 @@
 package com.git.exception;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.git.domain.AjaxJson;
-import com.google.gson.Gson;
+import com.git.domain.BaseResponse;
 
 
 /**
@@ -33,15 +31,14 @@ public class GlobeException {
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
-	public ModelAndView runtimeExceptionHandler(HttpServletRequest request, HttpServletResponse response,Exception ex) {
+	public Object runtimeExceptionHandler(HttpServletRequest request, HttpServletResponse response,Exception ex) {
 		// 打印错误
-		ex.printStackTrace();
-		System.out.println("-------------------");
         logger.error("do [{}] on [{}] failed. exMsg:{}", request.getMethod(), request.getRequestURL(),ex.getLocalizedMessage());
-		// 进行返回
-		if (request.getHeader("x-requested-with") != null
-				&& request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) {
-			return this.processAjax(response);
+        ex.printStackTrace();
+        
+		// 判断不同的请求进行返回
+		if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) {
+			return this.processAjax();
 		} else {
 			return this.processNormal(response);
 		}
@@ -53,15 +50,8 @@ public class GlobeException {
 	 * @param response
 	 * @return
 	 */
-	private ModelAndView processAjax(HttpServletResponse response) {
-		response.setHeader("Cache-Control", "no-store");
-		try {
-			response.getWriter().write(new Gson().toJson(new AjaxJson(false, "请求出错", null)));
-			response.getWriter().flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new ModelAndView();
+	private ResponseEntity<BaseResponse> processAjax() {
+		return ResponseEntity.status(500).body(BaseResponse.FAIL());
 	}
 
 	/**
@@ -71,9 +61,8 @@ public class GlobeException {
 	 * @return
 	 */
 	private ModelAndView processNormal(HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView("500");
 		modelAndView.addObject("msg", "出现异常了");
-		modelAndView.setViewName("500");
 		return modelAndView;
 	}
 }

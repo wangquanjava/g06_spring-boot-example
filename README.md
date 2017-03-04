@@ -1,1 +1,1 @@
-# g06_spring-boot-example
+# g06_spring_boot_template

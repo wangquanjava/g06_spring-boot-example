@@ -7,10 +7,10 @@ import com.git.domain.DemoEntity;
 
 public interface DemoService {
 
-	DemoEntity insert(DemoEntity demoEntity);
-
 	DemoEntity get(Integer id);
 
 	List<DemoEntity> getByStartDate(Date parseDate, Date date);
+
+	int update(Integer id);
 
 }
