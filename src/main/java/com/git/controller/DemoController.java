@@ -20,7 +20,7 @@ public class DemoController {
 	@RequestMapping("/get")
 	public BaseDataResponse<DemoEntity> get(HttpServletRequest request,Integer id){
 		DemoEntity demoEntity = this.demoService.get(id);
-		System.out.println(0/0);
+//		System.out.println(0/0);
 		return new BaseDataResponse<DemoEntity>(ResultCode.SUCCESSFUL_CODE, demoEntity);
 	}
 }

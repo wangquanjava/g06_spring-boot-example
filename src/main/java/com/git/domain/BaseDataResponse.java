@@ -17,16 +17,16 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 public class BaseDataResponse<T> extends BaseResponse{
 	private static final long serialVersionUID = 1L;
-	private T t;
+	private T data;
 	
     //1
-    public BaseDataResponse(String code,T t){
+    public BaseDataResponse(String code,T data){
     	super(code);
-    	this.t = t;
+    	this.data = data;
     }
     //2
-    public BaseDataResponse(String code,String message,T t){
+    public BaseDataResponse(String code,String message,T data){
     	super(code,message);
-    	this.t = t;
+    	this.data = data;
     }
 }
