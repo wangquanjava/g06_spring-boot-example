@@ -4,7 +4,7 @@
 	<groupId>com.git</groupId>
 	<artifactId>g06_spring_boot_template</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	
 	<!-- 继承spring-boot,获得spring-boot所需的依赖和插件 -->
 	<parent>
@@ -109,5 +109,21 @@
             <version>1.16.8</version>
         </dependency>
 	</dependencies>
-	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<env>pro</env>
+			</properties>
+		</profile>
+	</profiles>
 </project>

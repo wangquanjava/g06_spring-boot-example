@@ -1,17 +1,16 @@
 package com.git;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -30,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 		@PropertySource("classpath:application-mvc.properties")
 	})
 public class ApplicationStart extends WebMvcConfigurerAdapter{
+	private static final Logger logger = Logger.getLogger(ApplicationStart.class);
 	@Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(false)
@@ -41,13 +41,20 @@ public class ApplicationStart extends WebMvcConfigurerAdapter{
     }
 	
     public static void main(String[] args) throws Exception {
-    	
         ConfigurableApplicationContext context = SpringApplication.run(ApplicationStart.class, args);
         
         
-        String address = InetAddress.getLocalHost().getHostAddress();
-        String port = context.getEnvironment().getProperty("server-port");
-        port = StringUtils.isBlank(port)==true?"8080":port;
-        System.out.println("------访问地址为:"+address+":"+port+"------");
+        showAppInfo(context.getEnvironment());
+    }
+    public static void showAppInfo(final Environment env) throws UnknownHostException {
+        String isSslEnabled = env.getProperty("server.ssl.enabled");
+        String protocol = "http";
+        if (isSslEnabled != null && "true".equals(isSslEnabled)) {
+            protocol = "https";
+        }
+        logger.info("Access URLs:\n----------------------------------------------------------\n\t" +
+                    "Local: \t\t" + protocol + "://127.0.0.1:"+env.getProperty("server.port")+"\n\t" +
+                    "External: \t" + protocol + "://"+InetAddress.getLocalHost().getHostAddress()+":"+env.getProperty("server.port")+"\n----------------------------------------------------------"
+                );
     }
 }
